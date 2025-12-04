@@ -1,0 +1,262 @@
+/* Dashboard.css */
+.dashboard-container {
+  padding: 1rem;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-welcome {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.dashboard-welcome .username {
+  color: #3498db;
+  font-weight: 600;
+}
+
+/* Stats Cards */
+.stats-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  background: white;
+  overflow: hidden;
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card-warning {
+  border-left: 4px solid #e74c3c;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+
+.stats-card-title {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2c3e50;
+  line-height: 1;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-currency {
+  color: #27ae60;
+  font-size: 2rem;
+}
+
+.stats-subtitle {
+  color: #95a5a6;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.warning-badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Content Cards */
+.content-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background: white;
+  height: 100%;
+}
+
+.content-card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  color: #2c3e50;
+  padding: 1rem 1.25rem;
+  font-size: 1.1rem;
+}
+
+/* Low Stock Items */
+.low-stock-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.low-stock-item {
+  background-color: #f8f9fa;
+  border-left: 4px solid #f39c12;
+  transition: all 0.2s ease;
+}
+
+.low-stock-item:hover {
+  background-color: #fff8e1;
+  transform: translateX(5px);
+}
+
+.low-stock-item:last-child {
+  margin-bottom: 0;
+}
+
+.stock-info {
+  min-width: 120px;
+}
+
+.stock-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Chart Placeholder */
+.chart-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.chart-icon {
+  font-size: 4rem;
+  color: #bdc3c7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0.75rem;
+  }
+  
+  .dashboard-title {
+    font-size: 1.75rem;
+  }
+  
+  .stats-value {
+    font-size: 2rem;
+  }
+  
+  .stats-currency {
+    font-size: 1.75rem;
+  }
+  
+  .content-card-header {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .low-stock-item {
+    padding: 0.75rem !important;
+  }
+  
+  .chart-placeholder {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .chart-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+  
+  .stats-card {
+    margin-bottom: 1rem;
+  }
+  
+  .stats-value {
+    font-size: 1.75rem;
+  }
+  
+  .stats-currency {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-welcome {
+    font-size: 1rem;
+  }
+  
+  .content-row {
+    margin-top: 1rem;
+  }
+  
+  .low-stock-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stock-info {
+    margin-top: 0.5rem;
+    min-width: auto;
+  }
+}
+
+/* Custom Scrollbar */
+.low-stock-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.low-stock-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.low-stock-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.low-stock-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

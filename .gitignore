@@ -1,0 +1,146 @@
+# ==============================================
+# PYTHON
+# ==============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Virtual Environment
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ==============================================
+# IDE & EDITOR
+# ==============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================================
+# ENVIRONMENT & SECRETS
+# ==============================================
+.env
+.env.local
+.env.*.local
+.secrets
+secrets.yaml
+secrets.yml
+config.local.*
+*.key
+*.pem
+*.cert
+*.crt
+
+# ==============================================
+# DATABASE & LOGS
+# ==============================================
+*.db
+*.sqlite3
+*.sqlite
+*.log
+logs/
+*.log.*
+debug.log
+
+# ==============================================
+# DOCKER & CONTAINERS
+# ==============================================
+docker-compose.override.yml
+.dockerignore
+
+# ==============================================
+# TESTING & COVERAGE
+# ==============================================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.tox/
+
+# ==============================================
+# DOCUMENTATION
+# ==============================================
+docs/_build/
+_site/
+
+# ==============================================
+# MEDIA & UPLOADS
+# ==============================================
+media/
+uploads/
+temp/
+tmp/
+
+# ==============================================
+# ALEMBIC MIGRATIONS (keep versions directory)
+# ==============================================
+alembic/versions/
+!alembic/versions/README
+
+# ==============================================
+# JUPYTER NOTEBOOK
+# ==============================================
+.ipynb_checkpoints
+
+# ==============================================
+# OPERATING SYSTEM
+# ==============================================
+[Oo]ne[Dd]rive/
+[Ll]ibrary/
+*.lnk
+*.url
+*.exe
+*.msi
+*.bat
+*.cmd
+
+# ==============================================
+# PROJECT SPECIFIC
+# ==============================================
+# Development SQLite database (if using)
+dev.db
+test.db
+
+# Local development files
+local_settings.py
+local_config.yaml
+
+# Export files (generated reports)
+exports/
+reports/
+
+# Backup files
+*.bak
+*.backup
