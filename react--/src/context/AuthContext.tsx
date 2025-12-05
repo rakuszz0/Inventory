@@ -1,20 +1,15 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { authService, User, RegisterData } from '../services/authService';
-import { LoginCredentials } from '../types';
+// Import SEMUA tipe dari '../types', JANGAN dari authService
+import { 
+  User, 
+  LoginCredentials, 
+  RegisterPayload, // Gunakan RegisterPayload
+  AuthContextType 
+} from '../types'; 
+// Import instance authService, bukan tipenya
+import { authService } from '../services/authService';
 
-interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
-  logout: () => Promise<void>;
-  isAuthenticated: boolean;
-  hasRole: (role: string) => boolean;
-  hasAnyRole: (roles: string[]) => boolean;
-  error: string | null;
-  clearError: () => void;
-}
-
+// AuthContextType sudah diimpor, tidak perlu didefinisikan ulang
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
@@ -45,53 +40,51 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (credentials: LoginCredentials) => {
-  try {
-    setLoading(true);
-    setError(null);
+    try {
+      setLoading(true);
+      setError(null);
 
-    const loggedInUser = await authService.login(credentials.username, credentials.password);
+      // PERBAIKAN: authService.login membutuhkan satu objek, bukan dua argumen terpisah
+      const loggedInUser = await authService.login(credentials);
 
-    if (loggedInUser) {
-      setUser(loggedInUser);
-
-      // Redirect sesuai role
-      switch (loggedInUser.role) {
-        case 'super_admin':
-          window.location.href = '/dashboard/superadmin';
-          break;
-        case 'gudang':
-          window.location.href = '/dashboard/gudang';
-          break;
-        default:
-          window.location.href = '/';
+      if (loggedInUser) {
+        setUser(loggedInUser);
+        // Catatan: Menggunakan useNavigate dari react-router-dom lebih disarankan daripada window.location.href
+        switch (loggedInUser.role) {
+          case 'super_admin':
+            window.location.href = '/dashboard/superadmin';
+            break;
+          case 'gudang':
+            window.location.href = '/dashboard/gudang';
+            break;
+          default:
+            window.location.href = '/';
+        }
+      } else {
+        setError('Login failed: user data missing');
       }
-    } else {
-      setError('Login failed: user data missing');
+
+    } catch (err: any) {
+      setError(err?.message || 'Login failed');
+      throw err;
+    } finally {
+      setLoading(false);
     }
+  };
 
-  } catch (err: any) {
-    setError(err?.message || 'Login failed');
-    throw err;
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  const register = async (data: RegisterData) => {
-  try {
-    setLoading(true);
-    setError(null);
-    await authService.register(data);
-    // Bisa langsung login otomatis atau redirect, tergantung kebutuhan
-  } catch (err: any) {
-    setError(err?.message || 'Registration failed');
-    throw err;
-  } finally {
-    setLoading(false);
-  }
-};
-
+  // PERBAIKAN: Gunakan RegisterPayload untuk tipe parameter
+  const register = async (data: RegisterPayload) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await authService.register(data);
+    } catch (err: any) {
+      setError(err?.message || 'Registration failed');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const logout = async () => {
     await authService.logout();
@@ -105,8 +98,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const hasRole = (role: string) => authService.hasRole(role);
   const hasAnyRole = (roles: string[]) => authService.hasAnyRole(roles);
 
-  const value = {
+  const value: AuthContextType = {
     user,
+    token: null,
     isLoading,
     login,
     register,

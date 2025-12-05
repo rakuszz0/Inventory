@@ -1,4 +1,6 @@
 import axios from 'axios';
+// Import SEMUA tipe dari file terpusat
+import { LoginCredentials, RegisterPayload, User, AuthResponse } from '../types'; 
 
 // Axios instance
 const api = axios.create({
@@ -18,52 +20,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export interface LoginData {
-  username: string;
-  password: string;
-}
-
-export interface RegisterData {
-  full_name: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role: 'super_admin' | 'gudang' | 'kasir' | 'manajer';
-  warehouse_id?: string;
-}
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  full_name: string;
-  role: 'super_admin' | 'gudang' | 'kasir' | 'manajer';
-  warehouse_id?: string;
-  is_active: boolean;
-  is_verified?: boolean;
-  created_at?: string;
-  updated_at?: string;
-  last_login?: string;
-}
-
-export interface AuthResponse {
-  access_token: string;
-  refresh_token?: string;
-  token_type: string;
-  expires_in: number;
-  user?: User;
-}
+// Tidak perlu mendefinisikan interface lagi di sini, karena sudah diimpor
 
 class AuthService {
   private tokenKey = 'inventory_token';
   private refreshKey = 'refresh_token';
   private userKey = 'inventory_user';
 
-  // Login user
-  async login(username: string, password: string): Promise<User> {
+  // Login user - Gunakan LoginCredentials
+  async login(credentials: LoginCredentials): Promise<User> {
     try {
-      const res = await api.post<AuthResponse>('/auth/login', { username, password });
+      const res = await api.post<AuthResponse>('/auth/login', credentials);
       const { access_token, refresh_token, user } = res.data;
 
       if (!access_token) throw new Error('Login failed: access token missing');
@@ -71,13 +38,11 @@ class AuthService {
       this.setToken(access_token);
       if (refresh_token) localStorage.setItem(this.refreshKey, refresh_token);
 
-      // Jika user data sudah ada di respons login, gunakan itu
       if (user) {
         this.setUser(user);
         return user;
       }
 
-      // Jika tidak, ambil user setelah login
       const currentUser = await this.getCurrentUser();
       if (!currentUser) throw new Error('Login failed: user data missing');
 
@@ -93,7 +58,6 @@ class AuthService {
     if (!token) return null;
 
     try {
-      // Perbaikan: respons dari /auth/me adalah user langsung, bukan { user: ... }
       const res = await api.get<User>('/auth/me');
       const user = res.data;
       if (user) this.setUser(user);
@@ -105,11 +69,10 @@ class AuthService {
     }
   }
 
-  // Register user
-  async register(data: RegisterData): Promise<AuthResponse> {
+  // Register user - Gunakan RegisterPayload
+  async register(data: RegisterPayload): Promise<void> {
     try {
-      const response = await api.post<AuthResponse>('/auth/register', data);
-      return response.data;
+      await api.post('/auth/register', data);
     } catch (error: any) {
       console.error('Register error:', error.response?.data || error.message);
       throw error;
